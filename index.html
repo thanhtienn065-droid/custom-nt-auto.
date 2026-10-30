@@ -1,12 +1,134 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CUSTOM NT AUTO</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUSTOM NT AUTO</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090909;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#151515;padding:22px 16px;
+ border-bottom:2px solid #e52222;
+}
+h1{margin:0;color:#ff3030;font-size:25px}
+header p{color:#aaa;margin-bottom:0}
+.container{padding:18px;max-width:650px;margin:auto}
+.card{
+ background:#171717;border:1px solid #333;
+ border-radius:13px;padding:17px;margin-bottom:17px;
+}
+h2{font-size:18px;margin-top:0}
+label{display:block;margin:12px 0 7px;color:#ddd}
+input,textarea{
+ width:100%;padding:12px;border-radius:8px;
+ border:1px solid #444;background:#0c0c0c;
+ color:white;font-size:15px;
+}
+textarea{min-height:110px;resize:vertical}
+button{
+ border:0;border-radius:8px;padding:13px;
+ font-weight:bold;font-size:15px;cursor:pointer;
+}
+.main{background:#e52222;color:white;width:100%;margin-top:13px}
+.copy{background:#333;color:white;width:100%;margin-top:9px}
+.preview{
+ width:100%;max-height:250px;object-fit:contain;
+ margin-top:12px;border-radius:8px;display:none;
+}
+.note{color:#999;font-size:13px;line-height:1.5}
+</style>
 </head>
 <body>
-  <h1>CUSTOM NT AUTO</h1>
-  <p>Hệ thống quản lý bài đăng Custom NT</p>
+<header>
+<h1>🔥 CUSTOM NT AUTO</h1>
+<p>HỆ THỐNG QUẢN LÝ BÀI ĐĂNG CUSTOM NT</p>
+</header>
+
+<div class="container">
+<div class="card">
+<h2>📝 TẠO BÀI QUẢNG CÁO</h2>
+
+<label>Tên Custom</label>
+<input id="name" value="CUSTOM NT">
+
+<label>Lệ phí tham gia</label>
+<input id="fee" value="8K">
+
+<label>Giải thưởng</label>
+<input id="prize" value="Top 1: 65K | Top 2: 18K | Top 3: 8K">
+
+<label>Link nhóm Facebook</label>
+<input id="link" placeholder="Dán link nhóm tại đây">
+
+<label>Chọn kiểu nội dung</label>
+<select id="style" style="width:100%;padding:12px;background:#0c0c0c;color:white;border-radius:8px">
+<option value="1">Phong cách chuyên nghiệp</option>
+<option value="2">Phong cách sôi động</option>
+<option value="3">Phong cách ngắn gọn</option>
+</select>
+
+<button class="main" onclick="generate()">⚡ TẠO BÀI QUẢNG CÁO</button>
+</div>
+
+<div class="card">
+<h2>🖼️ ẢNH QUẢNG CÁO</h2>
+<input type="file" id="photo" accept="image/*" onchange="showPhoto(event)">
+<img id="preview" class="preview">
+<p class="note">Ảnh được xem trước trên thiết bị. Phiên bản này chưa lưu ảnh lên máy chủ.</p>
+</div>
+
+<div class="card">
+<h2>📢 NỘI DUNG BÀI ĐĂNG</h2>
+<textarea id="result" placeholder="Nội dung quảng cáo sẽ xuất hiện ở đây..."></textarea>
+<button class="copy" onclick="copyText()">📋 SAO CHÉP NỘI DUNG</button>
+</div>
+</div>
+
+<script>
+function generate(){
+const name=document.getElementById('name').value;
+const fee=document.getElementById('fee').value;
+const prize=document.getElementById('prize').value;
+const link=document.getElementById('link').value;
+const style=document.getElementById('style').value;
+
+let intro=[
+`🔥 ${name} CHÍNH THỨC MỞ ĐĂNG KÝ!\n\nAnh em Free Fire đã sẵn sàng tranh tài chưa?`,
+`⚔️ SÂN CHƠI DÀNH CHO ANH EM FREE FIRE!\n\n${name} đang chờ những đội tuyển bản lĩnh!`,
+`🎮 ${name} - MỞ ĐĂNG KÝ NGAY!\n\nCùng anh em tham gia những trận đấu hấp dẫn!`
+];
+
+let text=intro[Number(style)-1] +
+`\n\n💰 LỆ PHÍ: ${fee}\n🏆 GIẢI THƯỞNG:\n${prize}\n\n🔥 Đăng ký tham gia và giao lưu cùng cộng đồng!\n\n${link ? '🔗 Link tham gia: '+link : ''}\n\n#FreeFire #CustomNT`;
+
+document.getElementById('result').value=text;
+}
+
+function copyText(){
+const box=document.getElementById('result');
+if(!box.value){alert('Bạn hãy tạo nội dung trước nhé!');return;}
+box.select();
+if(navigator.clipboard){
+navigator.clipboard.writeText(box.value)
+.then(()=>alert('Đã sao chép nội dung!'))
+.catch(()=>alert('Hãy chọn nội dung và sao chép thủ công nhé!'));
+}else{
+document.execCommand('copy');
+alert('Đã sao chép!');
+}
+}
+
+function showPhoto(event){
+const file=event.target.files[0];
+if(!file)return;
+const preview=document.getElementById('preview');
+preview.src=URL.createObjectURL(file);
+preview.style.display='block';
+}
+</script>
 </body>
 </html>
